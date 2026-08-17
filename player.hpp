@@ -4,12 +4,16 @@
 class Player {
 
     public:
-    Vector2 playerPos;
-    
+        bool movingUp;
+        bool movingDown;
+        bool isSprinting;
+
+        bool isFacingDown;
+        bool isFacingUp;
+
+        float playerPos;
+        float playerMoveSpeed = 4;
+        float playerSprintSpeed = 4;
 
 
-
-    private:
-        int m_x;
-        int m_y;
 };
