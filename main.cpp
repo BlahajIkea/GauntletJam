@@ -2,117 +2,115 @@
 #include <string>
 //-- Includes: 
 
-#include "Player.hpp"
-#include "Global_Game_Settings.hpp"
-
-#include "Car.hpp"
-#include "redCar.hpp"
-
+#include "player.hpp"
 
 // -- DEFINE --
+#define SCRENHEIGHT 800
+#define SCREANWIDTH 700
 
-Texture2D carSpriteAtlasLeft;
-Texture2D carSpriteAtlasRight;
+bool movingUp;
+bool movingDown;
+bool isSprinting;
+
+bool isFacingDown;
+bool isFacingUp;
+
+float playerMoveSpeed = 4;
+float playerSprintSpeed = 4;
+
+Vector2 playerPos = { 
+        (float) SCREANWIDTH / 2.5 , 
+        (float)SCRENHEIGHT / 2 
+    };
+
 Texture2D playerSpriteAtlasDown;
 Texture2D playerSpriteAtlasUp;
-
-Player player;
-
-
+Texture2D carSpriteAtlasLeft;
+Texture2D carSpriteAtlasRight;
 
 
+void spawnCars() {
+    DrawTextureV(carSpriteAtlasLeft, (Vector2){0, 400}, WHITE);
+    //DrawTexture(carSpriteAtlasLeft, 0, 400, WHITE);
+}
 
 void writeCords() {
-    DrawText(std::to_string(player.playerPos.y).c_str(), 0, 0, 25, BLACK);
-    DrawText(std::to_string(player.playerPos.x).c_str(), 0, 25, 25, BLACK);
+    DrawText(std::to_string(playerPos.y).c_str(), 0, 0, 25, BLACK);
 }
 
 void flipSpriteUpDown() {
-    if (player.isFacingDown)
-        DrawTextureV(playerSpriteAtlasDown, (Vector2){player.playerPos}, WHITE);
-    if (player.isFacingUp)
-        DrawTextureV(playerSpriteAtlasUp, (Vector2){player.playerPos}, WHITE);
-}
-
-
-void isPlayerDeadYet() {
-    if (!player.isAlive) {
-
-    }
+    if (isFacingDown)
+        DrawTextureV(playerSpriteAtlasDown, (Vector2){playerPos}, WHITE);
+    if (isFacingUp)
+        DrawTextureV(playerSpriteAtlasUp, (Vector2){playerPos}, WHITE);
 }
 
 void getPlayerInput() {
     if (IsKeyDown(KEY_UP)) {
-        player.movingUp = true;
-        player.isFacingDown = false;
-        player.isFacingUp = true;
-    } else  player.movingUp = false;
+        movingUp = true;
+        isFacingDown = false;
+        isFacingUp = true;
+    } else  movingUp = false;
 
     if (IsKeyDown(KEY_DOWN)) {
-        player.movingDown = true;
-        player.isFacingDown = true;
-        player.isFacingUp = false;
-    } else  player.movingDown = false;
+        movingDown = true;
+        isFacingDown = true;
+        isFacingUp = false;
+    } else  movingDown = false;
 
     if(IsKeyDown(KEY_SPACE))
-        player.isSprinting = true;
+        isSprinting = true;
     else
-        player.isSprinting = false;
-
-    if (player.movingUp){player.playerPos.y -= player.playerMoveSpeed;}
-    if(player.movingDown) {player.playerPos.y += player.playerMoveSpeed;}
-    if (player.movingUp && player.isSprinting) {player.playerPos.y -= player.playerMoveSpeed * player.playerSprintSpeed;}
-    if(player.movingDown && player.isSprinting) { player.playerPos.y += player.playerMoveSpeed * player.playerSprintSpeed;}
-
+        isSprinting = false;
 }
 
 void isPlayerOutOfBounds() {
-    if (player.playerPos.y < 0) {
-        player.playerPos.y = 0;
+    if (playerPos.y < 0) {
+        playerPos.y = 0;
     }
-      if (player.playerPos.y > 619) {
-        player.playerPos.y = 620;
+      if (playerPos.y > 619) {
+        playerPos.y = 620;
     }
 }
 
-
-
 int main(void)
 {
-    
 //  INTIALIZING STUFF
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "my game");
     SetTargetFPS(60);             
-    player.isFacingDown = true;
-    player.isAlive = true;
-    player.playerPos.x = GetScreenWidth() / 2;
+    isFacingDown = true;
+    
     playerSpriteAtlasDown = LoadTexture("assets/malayDown.png");
     playerSpriteAtlasUp = LoadTexture("assets/malayUp.png");
-    carSpriteAtlasLeft = LoadTexture("assets/carGoingLeft.png");
-    carSpriteAtlasRight = LoadTexture("assets/carGoingRight.png");
-
-
+    carSpriteAtlasLeft = LoadTexture("carGoingLeft.png");
+    carSpriteAtlasRight = LoadTexture("carGoingRight.png");
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {    
+        spawnCars();
         getPlayerInput();
         isPlayerOutOfBounds();
 
-        
+        if (movingUp){playerPos.y -= playerMoveSpeed;}
+        if(movingDown) {playerPos.y += playerMoveSpeed;}
+        if (movingUp && isSprinting) {playerPos.y -= playerMoveSpeed * playerSprintSpeed;}
+        if(movingDown && isSprinting) { playerPos.y += playerMoveSpeed * playerSprintSpeed;}
             
         BeginDrawing();
-             //spawnRedCar();
-             
             ClearBackground(RAYWHITE);
             flipSpriteUpDown();
+            spawnCars();
             writeCords();
+
         EndDrawing();
  
     }
 
+
     CloseWindow();
- 
+
+
     return 0;
 
 }
