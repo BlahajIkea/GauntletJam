@@ -2,12 +2,11 @@
 #include <string>
 //-- Includes: 
 
-#include "gameDefaultsSettings.hpp"
 #include "player.hpp"
 
 // -- DEFINE --
 #define SCRENHEIGHT 800
-#define SCREANWIDTH 800
+#define SCREANWIDTH 700
 
 bool movingUp;
 bool movingDown;
@@ -19,16 +18,21 @@ bool isFacingUp;
 float playerMoveSpeed = 4;
 float playerSprintSpeed = 4;
 
-Vector2 playerPos= { 
+Vector2 playerPos = { 
         (float) SCREANWIDTH / 2.5 , 
         (float)SCRENHEIGHT / 2 
     };
 
 Texture2D playerSpriteAtlasDown;
 Texture2D playerSpriteAtlasUp;
+Texture2D carSpriteAtlasLeft;
+Texture2D carSpriteAtlasRight;
 
 
-
+void spawnCars() {
+    DrawTextureV(carSpriteAtlasLeft, (Vector2){0, 400}, WHITE);
+    //DrawTexture(carSpriteAtlasLeft, 0, 400, WHITE);
+}
 
 void writeCords() {
     DrawText(std::to_string(playerPos.y).c_str(), 0, 0, 25, BLACK);
@@ -78,33 +82,25 @@ int main(void)
     
     playerSpriteAtlasDown = LoadTexture("assets/malayDown.png");
     playerSpriteAtlasUp = LoadTexture("assets/malayUp.png");
-    
-
-
-
+    carSpriteAtlasLeft = LoadTexture("carGoingLeft.png");
+    carSpriteAtlasRight = LoadTexture("carGoingRight.png");
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {    
+        spawnCars();
         getPlayerInput();
         isPlayerOutOfBounds();
 
         if (movingUp){playerPos.y -= playerMoveSpeed;}
-            
         if(movingDown) {playerPos.y += playerMoveSpeed;}
-            
-        if (movingUp && isSprinting) {
-            playerPos.y -= playerMoveSpeed * playerSprintSpeed;
-        }
-            
-        if(movingDown && isSprinting) {
-            playerPos.y += playerMoveSpeed * playerSprintSpeed;
-        }
+        if (movingUp && isSprinting) {playerPos.y -= playerMoveSpeed * playerSprintSpeed;}
+        if(movingDown && isSprinting) { playerPos.y += playerMoveSpeed * playerSprintSpeed;}
             
         BeginDrawing();
-
             ClearBackground(RAYWHITE);
             flipSpriteUpDown();
+            spawnCars();
             writeCords();
 
         EndDrawing();
@@ -119,31 +115,3 @@ int main(void)
 
 }
 
-
-
-
-
-/*
-bool movingLeft;
-    bool movingRight;
-
-
-if (IsKeyDown(KEY_RIGHT)) 
-        {
-            movingRight = true;
-        } else  movingRight = false;
-
-        if (IsKeyDown(KEY_LEFT)) {
-             movingLeft = true;
-        } else  movingLeft = false;
-
-
-        
-
-        if (movingRight)
-            playerPos.x += playerMoveSpeed;
-        if(movingLeft)
-            playerPos.x -= playerMoveSpeed;
-
-
-        */
