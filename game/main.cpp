@@ -4,7 +4,7 @@
 
 //-- Includes: 
 
-#include "player.hpp"
+#include "Player.hpp"
 #include "RedCar.hpp"
 #include "BlueCar.hpp"
 
@@ -15,7 +15,6 @@
 
 Texture2D playerSpriteAtlasDown;
 Texture2D playerSpriteAtlasUp;
-
 
 Player player;
 RedCar redCar;
@@ -180,7 +179,7 @@ int main(void)
 
     SetTargetFPS(60);             
     
-    //player.isAlive = true;
+    player.isAlive = true;
     
     player.isFacingDown = true;
     player.playerPos.x = GetScreenWidth() / 2.5;
