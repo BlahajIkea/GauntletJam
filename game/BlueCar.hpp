@@ -1,9 +1,8 @@
 #pragma once
-
 #include "raylib.h"
 
 #include "Car.hpp"
 
-class RedCar : public Car {
-    
+class BlueCar : public Car {
+
 };

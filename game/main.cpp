@@ -6,6 +6,7 @@
 
 #include "player.hpp"
 #include "RedCar.hpp"
+#include "BlueCar.hpp"
 
 
 // -- DEFINE --
@@ -16,41 +17,59 @@ Texture2D playerSpriteAtlasDown;
 Texture2D playerSpriteAtlasUp;
 
 //MIVIS
-Texture2D blueMiviLeft;
+//Texture2D blueMiviLeft;
 Texture2D blueMiviRight;
 
-Texture2D redMiviLeft;
+
+
+//Texture2D redMiviLeft;
 Texture2D redMiviRight;
 
 
+Rectangle playerHitbox;
+
 Player player;
 RedCar redCar;
-
-
-
+BlueCar blueCar;
 
 
 void InitCars(){
-    redCar.carOutOfBoundsRange = 130;
+    // - RED CARS - LEFT SIDE
 
-    //redcars
-    
-    redCar.carPos.x = redCar.leftSpawnX;
-    redCar.carMoveSpeed = 5;
+    redCar.carOutOfBoundsRange = 40;
+    redCar.carPos.x = -400;
+    redCar.carMoveSpeed = 10;
     redCar.leftSpawnX = -120;
+
+    // - BLUE CARS - LEFT SIDE 
+    blueCar.carOutOfBoundsRange = 40;
+    blueCar.carPos.x = -430;
+    blueCar.carMoveSpeed = 5;
+    blueCar.leftSpawnX = -160;
 }
 
-
-void driveRedCar() {
+void driveRedCarRight() {
     DrawTextureV(redMiviRight, Vector2{redCar.carPos}, WHITE);
     redCar.carPos.x += redCar.carMoveSpeed;
     if(redCar.carPos.x > GetScreenWidth() + redCar.carOutOfBoundsRange)
     {
         redCar.carPos.x = redCar.leftSpawnX;
-        redCar.leftSpawnY = GetRandomValue(0, GetScreenHeight() / .5);
+        redCar.leftSpawnY = GetRandomValue(0, GetScreenHeight() / 0.7);
         redCar.carPos.y = redCar.leftSpawnY;
     }
 }
+
+void driveBueCarRight() {
+    DrawTextureV(blueMiviRight, Vector2{blueCar.carPos}, WHITE);
+    blueCar.carPos.x += blueCar.carMoveSpeed;
+    if(blueCar.carPos.x > GetScreenWidth() + blueCar.carOutOfBoundsRange)
+    {
+        blueCar.carPos.x = blueCar.leftSpawnX;
+        blueCar.leftSpawnY = GetRandomValue(0, GetScreenHeight() / 0.5);
+        blueCar.carPos.y = blueCar.leftSpawnY;
+    }
+}
+
 
 void checkIfPlayeIsDead(){
     if (!player.isAlive)
@@ -78,10 +97,10 @@ void getPlayerInput() {
         player.isFacingUp = false;
     } else  player.movingDown = false;
 
-    if(IsKeyDown(KEY_SPACE))
-        player.isSprinting = true;
-    else
-        player.isSprinting = false;
+    // if(IsKeyDown(KEY_SPACE))
+    //     player.isSprinting = true;
+    // else
+    //     player.isSprinting = false;
 
 
     if (player.movingUp){player.playerPos.y -= player.playerMoveSpeed;}
@@ -99,56 +118,59 @@ void isPlayerOutOfBounds() {
     }
 }
 
+
+void drawPlayerHitbox() {
+    DrawRectangleRec(playerHitbox, WHITE);
+}
+
+
 int main(void)
 {
 //  INTIALIZING STUFF
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "Trafik");
+    
     SetTargetFPS(60);             
     player.isAlive = true;
     player.isFacingDown = true;
     player.playerPos.x = GetScreenWidth() / 2.5;
     player.playerPos.y = GetScreenWidth() / 2.5;
     
+    
     //cars
     InitCars();
-    redMiviLeft = LoadTexture("assets/redMiviLeft.png");
+    //redMiviLeft = LoadTexture("assets/redMiviLeft.png");
+    
     redMiviRight = LoadTexture("assets/redMiviRight.png");
+    
+    
+    blueMiviRight = LoadTexture("assets/blueMiviRight.png");
     playerSpriteAtlasDown = LoadTexture("assets/malayDown.png");
     playerSpriteAtlasUp = LoadTexture("assets/malayUp.png");
-
-
-
-
-
-
-
-
-
+    
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
-    {    
-        driveRedCar();
-        getPlayerInput();
-        isPlayerOutOfBounds();
+    {   
+            driveRedCarRight();
+            driveBueCarRight();
+            getPlayerInput();
+            isPlayerOutOfBounds();
+            playerHitbox = {player.playerPos.x, player.playerPos.y, 50, 100};
+            checkIfPlayeIsDead();
+            
         
-        checkIfPlayeIsDead();
-        
-        
-        
+    
         BeginDrawing();
+                ClearBackground(RAYWHITE);
+                flipSpriteUpDown();
+        EndDrawing();
+    
+    }
+
+    
     
 
-        if (!player.isAlive) {
-            DrawText("DEAD", 0, 0, 25, RED);
-
-        }
-
-            ClearBackground(BLACK);
-            flipSpriteUpDown();
-        EndDrawing();
- 
-    }
+    UnloadTexture(redMiviRight);
     CloseWindow();
     return 0;
 }

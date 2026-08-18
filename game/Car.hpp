@@ -1,21 +1,21 @@
+#pragma once
 #include "raylib.h"
 
 class Car {
     public:
+        Vector2 carPos;
+        int carMoveSpeed;
 
-    Vector2 carPos;
-    int carMoveSpeed;
+        bool isFromLeft;
+        bool isFromRight;
 
-    bool isFromLeft;
-    bool isFromRight;
+        int leftSpawnX;
+        int leftSpawnY;
 
-    int leftSpawnX;
-    int leftSpawnY;
+        int rightSpawnX;
+        int rightSpawnY;
 
-    int rightSpawnX;
-    int rightSpawnY;
+        int carOutOfBoundsRange;
 
-    int carOutOfBoundsRange;
-
-    int height;
+        int height;
 };

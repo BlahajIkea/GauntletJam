@@ -1,3 +1,5 @@
+#pragma once
+
 #include "raylib.h"
 
 
@@ -14,7 +16,6 @@ class Player {
 
         Vector2 playerPos;
         float playerMoveSpeed = 4;
-        float playerSprintSpeed = 4;
-
+        float playerSprintSpeed = 2;
 
 };
