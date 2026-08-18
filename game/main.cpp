@@ -4,10 +4,9 @@
 
 //-- Includes: 
 
-#include "player.hpp"
+#include "Player.hpp"
 #include "RedCar.hpp"
 #include "BlueCar.hpp"
-
 
 // -- DEFINE --
 #define SCRENHEIGHT 950
@@ -16,14 +15,15 @@
 Texture2D playerSpriteAtlasDown;
 Texture2D playerSpriteAtlasUp;
 
-
 Player player;
 RedCar redCar;
 BlueCar blueCar;
+Car car;
 
 //MIVIS
 //Texture2D blueMiviLeft;
 Texture2D blueMiviRight;
+
 
 Texture2D redMiviRight;
 
@@ -64,15 +64,13 @@ void InitCars(){
     blueCar.carPos.x = -430;
     blueCar.carMoveSpeed = 150;
     blueCar.leftSpawnX = -160;
-
-
-    
-    
 }
 
 void driveRedCarRight() {
     DrawRectangleRec(redCarHitbox, RAYWHITE); // HITBOX
+    redCar.leftSpawnY = GetRandomValue(0, GetScreenHeight() / 0.7);
     
+
     redCar.carPos.x += GetFrameTime() * redCar.carMoveSpeed;
     redCarHitbox.x = redCar.carPos.x;
     redCarHitbox.y = redCar.carPos.y + 35;
@@ -87,7 +85,8 @@ void driveRedCarRight() {
 
 void driveBueCarRight() {
     DrawRectangleRec(blueCarHitbox, RAYWHITE); // HITBOX
-    
+    blueCar.leftSpawnY = GetRandomValue(0, GetScreenHeight() / 0.5);
+
     blueCar.carPos.x += GetFrameTime() * blueCar.carMoveSpeed;
     blueCarHitbox.x = blueCar.carPos.x;
     blueCarHitbox.y = blueCar.carPos.y + 35;
@@ -100,11 +99,6 @@ void driveBueCarRight() {
         blueCar.leftSpawnY = GetRandomValue(0, GetScreenHeight() / 0.5);
         blueCar.carPos.y = blueCar.leftSpawnY;
     }
-}
-
-void checkIfPlayeIsDead(){
-    if (!player.isAlive)
-        std::cout << "dead // collsion" << std::endl;
 }
 
 
@@ -175,12 +169,12 @@ int main(void)
 {
 //  INTIALIZING STUFF
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "Trafik");
-    player.playerMoveSpeed = 200;
+    player.playerMoveSpeed = 300;
     player.playerPoints = 0;
 
     SetTargetFPS(60);             
     
-    //player.isAlive = true;
+  
     
     player.isFacingDown = true;
     player.playerPos.x = GetScreenWidth() / 2.5;
@@ -196,7 +190,7 @@ int main(void)
     playerSpriteAtlasUp = LoadTexture("assets/malayUp.png");
     
     // Main game loop
-    while (!WindowShouldClose() && player.isAlive)    // Detect window close button or ESC key
+    while (!WindowShouldClose())    // Detect window close button or ESC key
     {   
         BeginDrawing();
             if (player.playerPoints > 0) {
@@ -209,9 +203,8 @@ int main(void)
             checkIfCollidingWithRedCar();
             drawPlayerHitBox();
             drawPointsToScreen();
-            checkIfPlayeIsDead();
-                ClearBackground(RAYWHITE);
-                flipSpriteUpDown();
+            ClearBackground(RAYWHITE);
+            flipSpriteUpDown();
         EndDrawing();
     
     }
@@ -223,4 +216,3 @@ int main(void)
     CloseWindow();
     return 0;
 }
-

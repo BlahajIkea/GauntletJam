@@ -2,6 +2,11 @@
 #include "raylib.h"
 
 class Car {
+    
+    private:
+        Texture2D sprite;
+        void Draw();
+        void Update();
     public:
         Vector2 carPos;
         int carMoveSpeed;
