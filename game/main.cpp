@@ -27,9 +27,7 @@ Player player;
 RedCar redCar;
 
 
-void checkIfCollideWithCar() {
-    CheckCollisionRecs(playerHitbox, redCarHitbox);
-}
+
 
 
 void InitCars(){
@@ -139,7 +137,7 @@ int main(void)
         
         
         BeginDrawing();
-        checkIfCollideWithCar();
+    
 
         if (!player.isAlive) {
             DrawText("DEAD", 0, 0, 25, RED);
