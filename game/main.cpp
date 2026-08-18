@@ -10,7 +10,7 @@
 
 
 // -- DEFINE --
-#define SCRENHEIGHT 600
+#define SCRENHEIGHT 950
 #define SCREANWIDTH 760
 
 Texture2D playerSpriteAtlasDown;
@@ -25,14 +25,20 @@ BlueCar blueCar;
 //Texture2D blueMiviLeft;
 Texture2D blueMiviRight;
 
-//Texture2D redMiviLeft;
 Texture2D redMiviRight;
+
+Rectangle blueCarHitbox {
+   blueCar.carPos.x,
+   blueCar.carPos.y,
+   150,
+   40,
+};
 
 Rectangle redCarHitbox {
    redCar.carPos.x,
    redCar.carPos.y,
    150,
-   150,
+   40,
 };
 
 Rectangle playerHitbox {
@@ -50,13 +56,13 @@ void InitCars(){
 
     redCar.carOutOfBoundsRange = 40;
     redCar.carPos.x = -400;
-    redCar.carMoveSpeed = 10;
+    redCar.carMoveSpeed = 500;
     redCar.leftSpawnX = -120;
 
     // - BLUE CARS - LEFT SIDE 
     blueCar.carOutOfBoundsRange = 40;
     blueCar.carPos.x = -430;
-    blueCar.carMoveSpeed = 5;
+    blueCar.carMoveSpeed = 150;
     blueCar.leftSpawnX = -160;
 
 
@@ -65,10 +71,12 @@ void InitCars(){
 }
 
 void driveRedCarRight() {
-    DrawTextureV(redMiviRight, Vector2{redCar.carPos}, WHITE);
-    redCar.carPos.x += redCar.carMoveSpeed;
+    DrawRectangleRec(redCarHitbox, RAYWHITE); // HITBOX
+    
+    redCar.carPos.x += GetFrameTime() * redCar.carMoveSpeed;
     redCarHitbox.x = redCar.carPos.x;
-    redCarHitbox.y = redCar.carPos.y;
+    redCarHitbox.y = redCar.carPos.y + 35;
+    DrawTextureV(redMiviRight, Vector2{redCar.carPos}, WHITE);
     if(redCar.carPos.x > GetScreenWidth() + redCar.carOutOfBoundsRange)
     {
         redCar.carPos.x = redCar.leftSpawnX;
@@ -78,8 +86,14 @@ void driveRedCarRight() {
 }
 
 void driveBueCarRight() {
+    DrawRectangleRec(blueCarHitbox, RAYWHITE); // HITBOX
+    
+    blueCar.carPos.x += GetFrameTime() * blueCar.carMoveSpeed;
+    blueCarHitbox.x = blueCar.carPos.x;
+    blueCarHitbox.y = blueCar.carPos.y + 35;
+    
     DrawTextureV(blueMiviRight, Vector2{blueCar.carPos}, WHITE);
-    blueCar.carPos.x += blueCar.carMoveSpeed;
+    blueCar.carPos.x += GetFrameTime() * blueCar.carMoveSpeed;
     if(blueCar.carPos.x > GetScreenWidth() + blueCar.carOutOfBoundsRange)
     {
         blueCar.carPos.x = blueCar.leftSpawnX;
@@ -120,48 +134,57 @@ void getPlayerInput() {
     //     player.isSprinting = false;
 
 
-    if (player.movingUp){player.playerPos.y -= player.playerMoveSpeed;}
-    if(player.movingDown) {player.playerPos.y += player.playerMoveSpeed;}
-    if (player.movingUp && player.isSprinting) {player.playerPos.y -= player.playerMoveSpeed * player.playerSprintSpeed;}
-    if(player.movingDown && player.isSprinting) { player.playerPos.y += player.playerMoveSpeed * player.playerSprintSpeed;}
+    if (player.movingUp){player.playerPos.y -= GetFrameTime() * player.playerMoveSpeed;}
+    if(player.movingDown) {player.playerPos.y += GetFrameTime() * player.playerMoveSpeed;}
 }
             
 void isPlayerOutOfBounds() {
     if (player.playerPos.y < 0) {
         player.playerPos.y = 0;
+        player.playerPos.y = GetScreenHeight() - GetScreenHeight();
     }
-      if (player.playerPos.y > GetScreenHeight() - 125) {
-        player.playerPos.y = GetScreenHeight() -125;
+    
+    if (player.playerPos.y > GetScreenHeight() - 125) // CHECKS IF THE PLAYER SCORED !!!
+    {
+        player.playerPos.y = -15;
+        player.playerPoints += 1;
+        blueCar.carPos.x = blueCar.leftSpawnX;
+        redCar.carPos.x = redCar.leftSpawnX;
     }
 }
 
 void drawPlayerHitBox() {
     playerHitbox.y = player.playerPos.y;
     playerHitbox.x = player.playerPos.x;
-    DrawRectangleRec(playerHitbox, PINK);
+    DrawRectangleRec(playerHitbox, RAYWHITE);
 }
 
 
-void drawRedCarHitbox() {
-    
+void checkIfCollidingWithRedCar() {
     if (CheckCollisionRecs(playerHitbox, redCarHitbox)) {
         player.isAlive = false;
     }
-    DrawRectangleRec(redCarHitbox, BLACK);
+    
 }
 
+void drawPointsToScreen() {
+    DrawText(TextFormat("Level: %d", player.playerPoints), 0, 0, 25, BLACK);
+}
 
 int main(void)
 {
 //  INTIALIZING STUFF
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "Trafik");
-    
+    player.playerMoveSpeed = 200;
+    player.playerPoints = 0;
+
     SetTargetFPS(60);             
-    player.isAlive = true;
+    
+    //player.isAlive = true;
+    
     player.isFacingDown = true;
     player.playerPos.x = GetScreenWidth() / 2.5;
-    player.playerPos.y = GetScreenWidth() / 2.5;
-    
+    player.playerPos.y = GetScreenHeight() - GetScreenHeight();
     
     //cars
     InitCars();
@@ -172,18 +195,20 @@ int main(void)
     playerSpriteAtlasDown = LoadTexture("assets/malayDown.png");
     playerSpriteAtlasUp = LoadTexture("assets/malayUp.png");
     
-
     // Main game loop
     while (!WindowShouldClose() && player.isAlive)    // Detect window close button or ESC key
     {   
         BeginDrawing();
-            driveRedCarRight();
-            driveBueCarRight();
+            if (player.playerPoints > 0) {
+                driveRedCarRight();
+                driveBueCarRight();
+            }
+
             getPlayerInput();
             isPlayerOutOfBounds();
-            drawRedCarHitbox();
+            checkIfCollidingWithRedCar();
             drawPlayerHitBox();
-
+            drawPointsToScreen();
             checkIfPlayeIsDead();
                 ClearBackground(RAYWHITE);
                 flipSpriteUpDown();
@@ -191,7 +216,6 @@ int main(void)
     
     }
 
-    
     UnloadTexture(redMiviRight);
     UnloadTexture(playerSpriteAtlasDown);
     UnloadTexture(playerSpriteAtlasUp);

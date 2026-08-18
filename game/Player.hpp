@@ -15,7 +15,8 @@ class Player {
         bool isAlive;
 
         Vector2 playerPos;
-        float playerMoveSpeed = 4;
-        float playerSprintSpeed = 2;
+        float playerMoveSpeed;
+        float playerSprintSpeed;
 
+        int playerPoints;
 };
