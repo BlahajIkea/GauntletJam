@@ -16,21 +16,33 @@
 Texture2D playerSpriteAtlasDown;
 Texture2D playerSpriteAtlasUp;
 
-//MIVIS
-//Texture2D blueMiviLeft;
-Texture2D blueMiviRight;
-
-
-
-//Texture2D redMiviLeft;
-Texture2D redMiviRight;
-
-
-Rectangle playerHitbox;
 
 Player player;
 RedCar redCar;
 BlueCar blueCar;
+
+//MIVIS
+//Texture2D blueMiviLeft;
+Texture2D blueMiviRight;
+
+//Texture2D redMiviLeft;
+Texture2D redMiviRight;
+
+Rectangle redCarHitbox {
+   redCar.carPos.x,
+   redCar.carPos.y,
+   150,
+   150,
+};
+
+Rectangle playerHitbox {
+    player.playerPos.x / + player.playerPos.x,
+    player.playerPos.y,
+    25,
+    120,
+};
+
+
 
 
 void InitCars(){
@@ -46,11 +58,17 @@ void InitCars(){
     blueCar.carPos.x = -430;
     blueCar.carMoveSpeed = 5;
     blueCar.leftSpawnX = -160;
+
+
+    
+    
 }
 
 void driveRedCarRight() {
     DrawTextureV(redMiviRight, Vector2{redCar.carPos}, WHITE);
     redCar.carPos.x += redCar.carMoveSpeed;
+    redCarHitbox.x = redCar.carPos.x;
+    redCarHitbox.y = redCar.carPos.y;
     if(redCar.carPos.x > GetScreenWidth() + redCar.carOutOfBoundsRange)
     {
         redCar.carPos.x = redCar.leftSpawnX;
@@ -70,10 +88,9 @@ void driveBueCarRight() {
     }
 }
 
-
 void checkIfPlayeIsDead(){
     if (!player.isAlive)
-        std::cout << "dead" << std::endl;
+        std::cout << "dead // collsion" << std::endl;
 }
 
 
@@ -118,9 +135,19 @@ void isPlayerOutOfBounds() {
     }
 }
 
+void drawPlayerHitBox() {
+    playerHitbox.y = player.playerPos.y;
+    playerHitbox.x = player.playerPos.x;
+    DrawRectangleRec(playerHitbox, PINK);
+}
 
-void drawPlayerHitbox() {
-    DrawRectangleRec(playerHitbox, WHITE);
+
+void drawRedCarHitbox() {
+    
+    if (CheckCollisionRecs(playerHitbox, redCarHitbox)) {
+        player.isAlive = false;
+    }
+    DrawRectangleRec(redCarHitbox, BLACK);
 }
 
 
@@ -141,26 +168,23 @@ int main(void)
     //redMiviLeft = LoadTexture("assets/redMiviLeft.png");
     
     redMiviRight = LoadTexture("assets/redMiviRight.png");
-    
-    
     blueMiviRight = LoadTexture("assets/blueMiviRight.png");
     playerSpriteAtlasDown = LoadTexture("assets/malayDown.png");
     playerSpriteAtlasUp = LoadTexture("assets/malayUp.png");
     
 
     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    while (!WindowShouldClose() && player.isAlive)    // Detect window close button or ESC key
     {   
+        BeginDrawing();
             driveRedCarRight();
             driveBueCarRight();
             getPlayerInput();
             isPlayerOutOfBounds();
-            playerHitbox = {player.playerPos.x, player.playerPos.y, 50, 100};
+            drawRedCarHitbox();
+            drawPlayerHitBox();
+
             checkIfPlayeIsDead();
-            
-        
-    
-        BeginDrawing();
                 ClearBackground(RAYWHITE);
                 flipSpriteUpDown();
         EndDrawing();
@@ -168,9 +192,10 @@ int main(void)
     }
 
     
-    
-
     UnloadTexture(redMiviRight);
+    UnloadTexture(playerSpriteAtlasDown);
+    UnloadTexture(playerSpriteAtlasUp);
+    UnloadTexture(blueMiviRight);
     CloseWindow();
     return 0;
 }
