@@ -10,8 +10,9 @@ class Player {
 
         bool isFacingDown;
         bool isFacingUp;
+        bool isAlive;
 
-        float playerPos;
+        Vector2 playerPos;
         float playerMoveSpeed = 4;
         float playerSprintSpeed = 4;
 
