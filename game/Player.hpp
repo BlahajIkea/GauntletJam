@@ -13,12 +13,11 @@ class Player {
         void DrawScore();
         void DrawFinalScore();
         void GainPoints();
-     
+        void RespawnPlayer();
         void StartingUI();
         int score;
         bool isAlive;
         Vector2 m_UiPos;
-        int amountOfRetries;
 
     private:
         Texture2D m_mainMenuSprite;

@@ -3,14 +3,15 @@
 #include "Car.hpp"
 #include "Player.hpp"
 
-
+Player pl;
 
 
 Car::Car(Vector2 spawnLocation, int moveSpeed) {
     m_sprite = LoadTexture("assets/blueMivi.png");
     m_moveSpeed = moveSpeed;
     m_position = spawnLocation;
-    leftSpawnX = -500;
+    m_leftSpawnX = -500;
+    isPlaying = true;
     
 };
 
@@ -19,8 +20,6 @@ Car::~Car() {
 };
 
 void Car::Draw() {
-    
-    
     if(m_moveSpeed > 0)
         DrawTextureV(m_sprite, m_position, WHITE);
 }
@@ -39,13 +38,10 @@ void Car::DrawHitbox(bool isColliding) {
 }
 
 void Car::RecallCars() {
-    if (m_position.x >= GetScreenWidth() + 75) 
-    {
-        leftSpawnX = GetRandomValue(-150, -430);
-        leftSpawnY = GetRandomValue(-0, 500);
-        m_position.x = leftSpawnX;
-        m_position.y = leftSpawnY;
-        
+    if (m_position.x >= GetScreenWidth() + 75 || !pl.isAlive) {
+        m_leftSpawnX = GetRandomValue(-150, -430);
+        m_leftSpawnY = GetRandomValue(-0, 650);
+        m_position.x = m_leftSpawnX;
+        m_position.y = m_leftSpawnY;
     }
-    
 }

@@ -12,7 +12,7 @@
 #define SCREANWIDTH 760
 
 Player player;
-bool gameHasStarted = false;
+bool gameHasStarted = true;
 
 
 
@@ -22,7 +22,7 @@ int main(void)
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "HELLO !!");
     
     Player player;
-    Car car({-300, 335}, 500);
+    Car car({-300, 335}, 250);
     Car car1({-375, 323}, 400);
     Car car2({-302, 138}, 200);
     Car car3({-324, 363}, 200);
@@ -33,10 +33,10 @@ int main(void)
 
     while (!WindowShouldClose())    
     {
-        
+        player.RespawnPlayer();
 
 
-        if(gameHasStarted || player.isAlive) {
+        if(gameHasStarted) {
             
         bool isColliding = CheckCollisionRecs(player.GetKillRect(), car.GetKillRect()); 
         bool isColliding1 = CheckCollisionRecs(player.GetKillRect(), car1.GetKillRect()); 
@@ -47,15 +47,10 @@ int main(void)
        
         if(isColliding || isColliding1 || isColliding2 || isColliding3 || isColliding4 || isColliding5) {player.isAlive = false;        }
 
-        player.StartingUI();
-        if(IsKeyPressed(KEY_ENTER) && (!isColliding || !isColliding1 
-            || !    isColliding2 || !isColliding3 || !isColliding4 || !isColliding5)) {
-            gameHasStarted = true;
-            player.isAlive = true;
-            player.score = 0;
-        }
-
-
+        
+        
+        
+        player.StartingUI(); // MOVES THE FUNNY DEATH MESSAGE
         car.RecallCars();
         car1.RecallCars();
         car2.RecallCars();
@@ -74,6 +69,7 @@ int main(void)
         BeginDrawing(); // ________________________________BEGIN DRAWING _____________________________________________________
         
         car.Draw();
+        car1.Draw();
         car2.Draw();
         car3.Draw();
         car4.Draw();
@@ -87,35 +83,34 @@ int main(void)
         
 
      
-        if (player.score > 0) {
-        car.Update();
-        car.DrawHitbox(isColliding);
+        if (player.score > 0 || car.isPlaying) {
+            car.Update();
+            car.DrawHitbox(isColliding);
         
         }
 
-        if (player.score > 3) {
-            car1.Draw();
-            car1.Update();
+        if (player.score > 4|| car.isPlaying) {
             car1.DrawHitbox(isColliding1);
+            car1.Update();
           
         }
-        if (player.score > 2) {
+        if (player.score >  2 || car.isPlaying) {
             car2.Update();
             car2.DrawHitbox(isColliding2);
         }
-        if (player.score > 6) {
+        if (player.score > 6 || car.isPlaying) {
             car3.Update();
             car3.DrawHitbox(isColliding3);
             
         }
 
-        if (player.score > 7) {
+        if (player.score > 7 && car.isPlaying) {
             car4.Update();
             car4.DrawHitbox(isColliding4);
             
         }
 
-        if (player.score > 4) {
+        if (player.score > 4 && car.isPlaying) {
             car5.Update();
             car5.DrawHitbox(isColliding5);
             
@@ -124,7 +119,7 @@ int main(void)
 
         }
         if (!player.isAlive)
-            DrawText("to play again. Press enter", 150, 150, 25, WHITE);
+            DrawText("to play again. Press enter", 250, 150, 25, BLUE);
         EndDrawing();
     }
     CloseWindow();

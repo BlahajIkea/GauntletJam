@@ -3,11 +3,11 @@
 #include <iostream>
 #include <math.h>
 
-
+#include "Car.hpp"
 
 Player::Player(){
     m_UiPos.y = -35;
-    amountOfRetries = 0;
+
     score = 0;
     //m_spriteUp = LoadTexture("assets/malayUp.png");
     m_spriteDown = LoadTexture("assets/malayDown.png");
@@ -81,7 +81,7 @@ void Player::DrawHitbox(bool isColliding) {
 }
 void Player::DrawScore(){
     DrawText(TextFormat("Score: %d", score), 0, 0, 25, WHITE);
-    DrawText(TextFormat("amount of retries: %d", amountOfRetries), 0, 50, 25, WHITE);
+    //DrawText(TextFormat("amount of retries: %d", amountOfRetries), 0, 50, 25, WHITE);
     //DrawText(TextFormat("Dead?: %d", isAlive), 0, 750, 25, WHITE);
 }
 
@@ -99,4 +99,12 @@ void Player::StartingUI() {
         m_UiPos.y += 80 * GetFrameTime();
         DrawTextureV(m_mainMenuSprite, Vector2{m_UiPos.x, m_UiPos.y}, WHITE);
     }
+}
+
+void Player::RespawnPlayer() {
+    if(IsKeyPressed(KEY_ENTER) && !isAlive) {
+            isAlive = true;
+            score = 0;
+            m_position.y = GetScreenHeight() - 15;
+        }
 }
