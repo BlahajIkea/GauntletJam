@@ -7,14 +7,14 @@ class Car {
         ~Car();
         void Draw();
         void Update();
-        Rectangle GetRect();
+        Rectangle GetKillRect();
         void DrawHitbox(bool isColliding);
-
         void RecallCars();
     private:
         Texture2D m_sprite;
         Vector2 m_position;
         int m_moveSpeed;
         int leftSpawnX;
+        int leftSpawnY;
 
 };

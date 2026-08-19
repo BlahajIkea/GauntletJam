@@ -8,7 +8,7 @@ class Player {
         ~Player();
         void Draw();
         void Update();
-        Rectangle GetRect();
+        Rectangle GetKillRect();
         void DrawHitbox(bool isColliding);
         void outOfBounds();
         int points;

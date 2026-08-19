@@ -27,7 +27,6 @@ void Player::Draw() {
 }
 
 void Player::Update() {
-    
     if(IsKeyDown(KEY_UP) && IsKeyDown(KEY_RIGHT)) m_position.y += GetFrameTime() * m_playerMoveSpeed / std::sqrt(2);
     if(IsKeyDown(KEY_UP) && IsKeyDown(KEY_LEFT)) m_position.y += GetFrameTime() * m_playerMoveSpeed / std::sqrt(2);
     if(IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT)) m_position.y -= GetFrameTime() * m_playerMoveSpeed / std::sqrt(2);
@@ -65,11 +64,11 @@ void Player::outOfBounds(){
 
 }
 
-Rectangle Player::GetRect() {
+Rectangle Player::GetKillRect() {
     return Rectangle{m_position.x, m_position.y, (float)m_spriteDown.width /2 , (float)m_spriteDown.height};
 }
 
 void Player::DrawHitbox(bool isColliding) {
     Color outLineColour = isColliding ? RED : RAYWHITE;
-    DrawRectangleLinesEx(GetRect(), 3, outLineColour);
+    DrawRectangleLinesEx(GetKillRect(), 3, outLineColour);
 }

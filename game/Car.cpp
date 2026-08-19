@@ -15,12 +15,7 @@ Car::~Car() {
 };
 
 void Car::Draw() {
-    if (m_moveSpeed < 0) {
-        Rectangle flipSpriteRect = {0, 0, (float)-m_sprite.width,  (float)m_sprite.height,};
-        DrawTextureRec(m_sprite, flipSpriteRect, m_position, WHITE);
-        DrawRectangleLinesEx(flipSpriteRect, 5, BLACK);
-    }
-    else
+    if(m_moveSpeed > 0)
         DrawTextureV(m_sprite, m_position, WHITE);
 }
 
@@ -28,18 +23,22 @@ void Car::Update() {
      m_position.x += GetFrameTime() * m_moveSpeed;
 }
 
-Rectangle Car::GetRect() {
-    return Rectangle{m_position.x, m_position.y, (float)m_sprite.width, (float)m_sprite.height};
+Rectangle Car::GetKillRect() {
+    return Rectangle{m_position.x + 110, m_position.y + 25, (float)m_sprite.width / 3, (float)m_sprite.height - 35};
 }
 
 void Car::DrawHitbox(bool isColliding) {
     Color outlineColour = isColliding ? RED : RAYWHITE;
-    DrawRectangleLinesEx(GetRect(), 3, outlineColour);
+    DrawRectangleLinesEx(GetKillRect(), 3, outlineColour);
 }
 
 void Car::RecallCars() {
      if (m_position.x >= GetScreenWidth() + 75) {
+        leftSpawnX = GetRandomValue(-150, -300);
+        leftSpawnY = GetRandomValue(-0, 500);
         m_position.x = leftSpawnX;
+        m_position.y = leftSpawnY;
+
         std::cout << "one car" << std::endl;
     }
 }
