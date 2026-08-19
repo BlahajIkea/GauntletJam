@@ -26,10 +26,11 @@ int main(void)
     {   
         ClearBackground(RAYWHITE);
         
-        
+        player.outOfBounds();
         player.Update();
-        
         BeginDrawing();
+
+
         
         player.Draw();
         car.Draw();

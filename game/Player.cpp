@@ -5,6 +5,8 @@
 
 
 Player::Player(){
+    
+    points = 0;
     //m_spriteUp = LoadTexture("assets/malayUp.png");
     m_spriteDown = LoadTexture("assets/malayDown.png");
     m_playerMoveSpeed = 400;
@@ -37,12 +39,17 @@ void Player::Update() {
     if(IsKeyDown(KEY_LEFT)) m_position.x -= GetFrameTime() * m_playerMoveSpeed;
     
     if (m_position.y > GetScreenHeight()) {
-        m_points += 1;
+        points += 1;
         m_position.y = GetScreenHeight() - GetScreenHeight();
-        std::cout << m_points << std::endl;
+        std::cout << points << std::endl;
     }
 }
 
 void Player::outOfBounds(){
-    if()
+    
+    //top
+    if(m_position.y <= GetScreenHeight() - GetScreenHeight()) {
+        m_position.y = 0;
+        std::cout << "TOP" << std::endl;
+    }
 }

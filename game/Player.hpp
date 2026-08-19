@@ -11,6 +11,7 @@ class Player {
         Rectangle GetRect();
         void DrawHitbox(bool isColliding);
         void outOfBounds();
+        int points;
     private:
         Texture2D m_spriteUp;
         Texture2D m_spriteDown;
@@ -24,7 +25,6 @@ class Player {
 
         Vector2 m_position;
         float m_playerMoveSpeed;
-        int m_points;
 
 
 
