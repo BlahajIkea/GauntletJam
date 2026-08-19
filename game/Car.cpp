@@ -5,6 +5,7 @@
 
 
 
+
 Car::Car(Vector2 spawnLocation, int moveSpeed) {
     m_sprite = LoadTexture("assets/blueMivi.png");
     m_moveSpeed = moveSpeed;
@@ -25,9 +26,7 @@ void Car::Draw() {
 }
 
 void Car::Update() {
-    Player player;
-    if(player.isAlive)
-        m_position.x += GetFrameTime() * m_moveSpeed;
+     m_position.x += GetFrameTime() * m_moveSpeed;
 }
 
 Rectangle Car::GetKillRect() {
@@ -35,18 +34,18 @@ Rectangle Car::GetKillRect() {
 }
 
 void Car::DrawHitbox(bool isColliding) {
-    Color outlineColour = isColliding ? RED : RAYWHITE;
+    Color outlineColour = isColliding ? BLACK : BLACK;
     DrawRectangleLinesEx(GetKillRect(), 3, outlineColour);
 }
 
 
 void Car::RecallCars() {
-     if (m_position.x >= GetScreenWidth() + 75) {
-        leftSpawnX = GetRandomValue(-150, -300);
+    if (m_position.x >= GetScreenWidth() + 75) {
+        leftSpawnX = GetRandomValue(-150, -430);
         leftSpawnY = GetRandomValue(-0, 500);
         m_position.x = leftSpawnX;
         m_position.y = leftSpawnY;
+       
 
-        //std::cout << "one car" << std::endl;
     }
 }

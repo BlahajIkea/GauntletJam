@@ -10,6 +10,8 @@ Player::Player(){
     score = 0;
     //m_spriteUp = LoadTexture("assets/malayUp.png");
     m_spriteDown = LoadTexture("assets/malayDown.png");
+    m_spriteDead = LoadTexture("assets/malayDead.png");
+    
     m_playerMoveSpeed = 400;
     isAlive = true;
     m_position.x = 150;
@@ -24,6 +26,14 @@ Player::~Player() {
 void Player::Draw() {
     if (isAlive)
         DrawTexture(m_spriteDown, m_position.x, m_position.y, WHITE);
+    else {
+        DrawTexture(m_spriteDead, m_position.x, m_position.y, WHITE);
+        goToHospital += 1 * GetFrameTime();
+        if(goToHospital > 2) {
+            std::cout << "go next" << std::endl;
+
+        }
+    }
 }
 
 void Player::Update() {
@@ -62,7 +72,7 @@ Rectangle Player::GetKillRect() {
 }
 
 void Player::DrawHitbox(bool isColliding) {
-    Color outLineColour = isColliding ? RED : RAYWHITE;
+    Color outLineColour = isColliding ? BLACK : BLACK;
     DrawRectangleLinesEx(GetKillRect(), 3, outLineColour);
    
 }
@@ -83,10 +93,8 @@ void Player::GainPoints() {
     }
 }
 
-void Player::RotateThePlayerAfterDeath() {
-    Rectangle source = (Rectangle) {0, 0, 0, 0};
-    Rectangle dest = (Rectangle) {0, 0, 0, 0};
-    if(!isAlive) {
-        DrawTexturePro(m_spriteDown, source, dest, (Vector2) {m_position.x, m_position.y}, 45, WHITE);
-    }
+
+void Player::StartingUI() {
+
+    
 }

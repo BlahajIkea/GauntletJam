@@ -10,6 +10,7 @@ class Car {
         Rectangle GetKillRect();
         void DrawHitbox(bool isColliding);
         void RecallCars();
+
     private:
         Texture2D m_sprite;
         Vector2 m_position;
