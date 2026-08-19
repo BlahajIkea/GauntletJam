@@ -16,5 +16,4 @@ class Car {
         int m_moveSpeed;
         int leftSpawnX;
         int leftSpawnY;
-
 };

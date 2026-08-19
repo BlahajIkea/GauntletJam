@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "Car.hpp"
+#include "Player.hpp"
+
+
 
 Car::Car(Vector2 spawnLocation, int moveSpeed) {
     m_sprite = LoadTexture("assets/blueMivi.png");
@@ -15,12 +18,16 @@ Car::~Car() {
 };
 
 void Car::Draw() {
+    
+    
     if(m_moveSpeed > 0)
         DrawTextureV(m_sprite, m_position, WHITE);
 }
 
 void Car::Update() {
-     m_position.x += GetFrameTime() * m_moveSpeed;
+    Player player;
+    if(player.isAlive)
+        m_position.x += GetFrameTime() * m_moveSpeed;
 }
 
 Rectangle Car::GetKillRect() {
@@ -32,6 +39,7 @@ void Car::DrawHitbox(bool isColliding) {
     DrawRectangleLinesEx(GetKillRect(), 3, outlineColour);
 }
 
+
 void Car::RecallCars() {
      if (m_position.x >= GetScreenWidth() + 75) {
         leftSpawnX = GetRandomValue(-150, -300);
@@ -39,6 +47,6 @@ void Car::RecallCars() {
         m_position.x = leftSpawnX;
         m_position.y = leftSpawnY;
 
-        std::cout << "one car" << std::endl;
+        //std::cout << "one car" << std::endl;
     }
 }

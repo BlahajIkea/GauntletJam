@@ -1,8 +1,6 @@
 #pragma once
 
 class Player {
-
-    
     public:
         Player();
         ~Player();
@@ -10,24 +8,18 @@ class Player {
         void Update();
         Rectangle GetKillRect();
         void DrawHitbox(bool isColliding);
-        void outOfBounds();
-        int points;
+        void OutOfBounds();
+        void RotateThePlayerAfterDeath();
+        void DrawScore();
+        void DrawFinalScore();
+        void GainPoints();
+        int score;
+        bool isAlive;
+
     private:
-        Texture2D m_spriteUp;
+        Texture2D m_spriteUp; 
         Texture2D m_spriteDown;
-
-        bool m_movingUp;
-        bool m_movingDown;
-
-        bool m_isFacingDown;
-        bool m_isFacingUp;
-        bool m_isAlive;
-
         Vector2 m_position;
         float m_playerMoveSpeed;
-
-
-
-
-
+        int finalScore;
 };
