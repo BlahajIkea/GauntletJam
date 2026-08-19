@@ -49,7 +49,18 @@ void Player::outOfBounds(){
     
     //top
     if(m_position.y <= GetScreenHeight() - GetScreenHeight()) {
-        m_position.y = 0;
+        m_position.y = -5;
         std::cout << "TOP" << std::endl;
     }
+
+    if(m_position.x <= GetScreenWidth() - GetScreenWidth()) {
+        std::cout << "LEFT" << std::endl;
+        m_position.x = 750;
+    }
+
+    if(m_position.x >= GetScreenWidth()) {
+        std::cout << "RIGHT" << std::endl;
+        m_position.x = -5;
+    }
+
 }
