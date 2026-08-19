@@ -10,7 +10,7 @@ class Player {
         void Update();
         Rectangle GetRect();
         void DrawHitbox(bool isColliding);
-
+        void outOfBounds();
     private:
         Texture2D m_spriteUp;
         Texture2D m_spriteDown;
