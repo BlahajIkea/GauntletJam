@@ -3,10 +3,10 @@ NAME := gauntlet
 
 # Compiler and the gauntlet's mandatory flags
 CXX      := c++
-CXXFLAGS := -Wall -Wextra -Werror -std=c++17 -g3 
+CXXFLAGS := -Wall -Wextra -Werror -std=c++17 
 
 # List every .cpp file in the exercise here
-SRCS := main.cpp
+SRCS := main.cpp Car.cpp Player.cpp
 OBJS := $(SRCS:.cpp=.o)
 
 RAYLIB_DIR	= vendor/raylib/src
