@@ -7,7 +7,7 @@
 
 Player::Player(){
     m_UiPos.y = -35;
-    
+    amountOfRetries = 0;
     score = 0;
     //m_spriteUp = LoadTexture("assets/malayUp.png");
     m_spriteDown = LoadTexture("assets/malayDown.png");
@@ -16,8 +16,8 @@ Player::Player(){
     
     m_playerMoveSpeed = 400;
     isAlive = true;
-    m_position.x = 150;
-    m_position.y = 150;
+    m_position.x = GetScreenHeight()/ 2;
+    m_position.y = GetScreenWidth()/ 2;
 }
 
 Player::~Player() {
@@ -81,12 +81,10 @@ void Player::DrawHitbox(bool isColliding) {
 }
 void Player::DrawScore(){
     DrawText(TextFormat("Score: %d", score), 0, 0, 25, WHITE);
-    DrawText(TextFormat("Dead?: %d", isAlive), 0, 25, 25, WHITE);
+    DrawText(TextFormat("amount of retries: %d", amountOfRetries), 0, 50, 25, WHITE);
+    //DrawText(TextFormat("Dead?: %d", isAlive), 0, 750, 25, WHITE);
 }
 
-void Player::DrawFinalScore(){
-    finalScore = score;
-}
 
 void Player::GainPoints() {
      if (m_position.y > GetScreenHeight() && isAlive) {

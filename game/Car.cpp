@@ -38,14 +38,14 @@ void Car::DrawHitbox(bool isColliding) {
     DrawRectangleLinesEx(GetKillRect(), 3, outlineColour);
 }
 
-
 void Car::RecallCars() {
-    if (m_position.x >= GetScreenWidth() + 75) {
+    if (m_position.x >= GetScreenWidth() + 75) 
+    {
         leftSpawnX = GetRandomValue(-150, -430);
         leftSpawnY = GetRandomValue(-0, 500);
         m_position.x = leftSpawnX;
         m_position.y = leftSpawnY;
-       
-
+        
     }
+    
 }

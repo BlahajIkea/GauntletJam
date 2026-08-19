@@ -16,10 +16,6 @@ bool gameHasStarted = false;
 
 
 
-void KillThePlayer() {
-    if (!player.isAlive) 
-        std::cout << "dead" << std::endl;
-}
 
 int main(void)
 {
@@ -37,17 +33,10 @@ int main(void)
 
     while (!WindowShouldClose())    
     {
-        player.StartingUI();
-        if(IsKeyPressed(KEY_ENTER)) {
-            gameHasStarted = true;
-            std::cout << gameHasStarted << std::endl;
-        }
         
-        
-        if (!player.isAlive)
-            KillThePlayer();
 
-        if(gameHasStarted) {
+
+        if(gameHasStarted || player.isAlive) {
             
         bool isColliding = CheckCollisionRecs(player.GetKillRect(), car.GetKillRect()); 
         bool isColliding1 = CheckCollisionRecs(player.GetKillRect(), car1.GetKillRect()); 
@@ -56,8 +45,16 @@ int main(void)
         bool isColliding4 = CheckCollisionRecs(player.GetKillRect(), car4.GetKillRect()); 
         bool isColliding5 = CheckCollisionRecs(player.GetKillRect(), car5.GetKillRect()); 
        
-        if(isColliding || isColliding1 || isColliding2 || isColliding3 || isColliding4 || isColliding5)
-            player.isAlive = false;
+        if(isColliding || isColliding1 || isColliding2 || isColliding3 || isColliding4 || isColliding5) {player.isAlive = false;        }
+
+        player.StartingUI();
+        if(IsKeyPressed(KEY_ENTER) && (!isColliding || !isColliding1 
+            || !    isColliding2 || !isColliding3 || !isColliding4 || !isColliding5)) {
+            gameHasStarted = true;
+            player.isAlive = true;
+            player.score = 0;
+        }
+
 
         car.RecallCars();
         car1.RecallCars();
@@ -126,7 +123,8 @@ int main(void)
 
 
         }
-
+        if (!player.isAlive)
+            DrawText("to play again. Press enter", 150, 150, 25, WHITE);
         EndDrawing();
     }
     CloseWindow();
