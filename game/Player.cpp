@@ -6,11 +6,13 @@
 
 
 Player::Player(){
-   
+    m_UiPos.y = -35;
+    
     score = 0;
     //m_spriteUp = LoadTexture("assets/malayUp.png");
     m_spriteDown = LoadTexture("assets/malayDown.png");
     m_spriteDead = LoadTexture("assets/malayDead.png");
+    m_mainMenuSprite = LoadTexture("assets/avaragePedestrian.png");
     
     m_playerMoveSpeed = 400;
     isAlive = true;
@@ -20,7 +22,7 @@ Player::Player(){
 
 Player::~Player() {
     UnloadTexture(m_spriteDown);
-    UnloadTexture(m_spriteUp);
+    
 }
 
 void Player::Draw() {
@@ -28,10 +30,11 @@ void Player::Draw() {
         DrawTexture(m_spriteDown, m_position.x, m_position.y, WHITE);
     else {
         DrawTexture(m_spriteDead, m_position.x, m_position.y, WHITE);
-        goToHospital += 1 * GetFrameTime();
-        if(goToHospital > 2) {
-            std::cout << "go next" << std::endl;
 
+        goToHospital += 1 *GetFrameTime();
+        
+        if(goToHospital > 10) {
+            
         }
     }
 }
@@ -93,8 +96,9 @@ void Player::GainPoints() {
     }
 }
 
-
 void Player::StartingUI() {
-
-    
+    if (m_UiPos.y <= 2000 && !isAlive) {
+        m_UiPos.y += 80 * GetFrameTime();
+        DrawTextureV(m_mainMenuSprite, Vector2{m_UiPos.x, m_UiPos.y}, WHITE);
+    }
 }

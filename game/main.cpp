@@ -37,6 +37,7 @@ int main(void)
 
     while (!WindowShouldClose())    
     {
+        player.StartingUI();
         if(IsKeyPressed(KEY_ENTER)) {
             gameHasStarted = true;
             std::cout << gameHasStarted << std::endl;
@@ -87,6 +88,7 @@ int main(void)
         player.Draw();
     // ---------------------------CARS----------------------------------
         
+
      
         if (player.score > 0) {
         car.Update();
