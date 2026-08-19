@@ -9,10 +9,12 @@ class Car {
         void Update();
         Rectangle GetRect();
         void DrawHitbox(bool isColliding);
+
+        void RecallCars();
     private:
         Texture2D m_sprite;
         Vector2 m_position;
         int m_moveSpeed;
-        int leftSpawn;
-        int rightSpawn;
+        int leftSpawnX;
+
 };

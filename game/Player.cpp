@@ -70,6 +70,6 @@ Rectangle Player::GetRect() {
 }
 
 void Player::DrawHitbox(bool isColliding) {
-    Color outLineColour = isColliding ? RED : BLACK;
+    Color outLineColour = isColliding ? RED : RAYWHITE;
     DrawRectangleLinesEx(GetRect(), 3, outLineColour);
 }
