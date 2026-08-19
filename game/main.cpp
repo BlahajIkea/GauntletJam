@@ -24,18 +24,19 @@ int main(void)
 
     while (!WindowShouldClose())    
     {   
+        bool isColliding = CheckCollisionRecs(player.GetRect(), car.GetRect()); 
+
         ClearBackground(RAYWHITE);
         
         player.outOfBounds();
         player.Update();
         BeginDrawing();
+        player.DrawHitbox(isColliding);
 
-
-        
         player.Draw();
         car.Draw();
         car.Update();
-        car.DrawHitbox(false);
+        car.DrawHitbox(isColliding);
 
 
         car1.Draw();

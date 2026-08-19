@@ -64,3 +64,12 @@ void Player::outOfBounds(){
     }
 
 }
+
+Rectangle Player::GetRect() {
+    return Rectangle{m_position.x, m_position.y, (float)m_spriteDown.width /2 , (float)m_spriteDown.height};
+}
+
+void Player::DrawHitbox(bool isColliding) {
+    Color outLineColour = isColliding ? RED : BLACK;
+    DrawRectangleLinesEx(GetRect(), 3, outLineColour);
+}
