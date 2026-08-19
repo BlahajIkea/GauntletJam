@@ -8,13 +8,14 @@
 
 
 // -- DEFINE --
-#define SCRENHEIGHT 950
+#define SCRENHEIGHT 750
 #define SCREANWIDTH 760
 
 int main(void)
 {
-    
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "HELLO !!");
+    
+    Player player;
     Car car({0, 0}, 500);
     Car car1({500, 500}, -400);
     
@@ -24,12 +25,21 @@ int main(void)
     while (!WindowShouldClose())    
     {   
         ClearBackground(RAYWHITE);
-        car.Update();
+        
+        
+        player.Update();
+        
         BeginDrawing();
-
+        
+        player.Draw();
         car.Draw();
+        car.Update();
+        car.DrawHitbox(false);
+
+
         car1.Draw();
         car1.Update();
+        car1.DrawHitbox(false);
         EndDrawing();
     
     }

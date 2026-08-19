@@ -2,18 +2,32 @@
 
 class Player {
 
+    
     public:
-        bool movingUp;
-        bool movingDown;
-        bool isSprinting;
+        Player();
+        ~Player();
+        void Draw();
+        void Update();
+        Rectangle GetRect();
+        void DrawHitbox(bool isColliding);
 
-        bool isFacingDown;
-        bool isFacingUp;
-        bool isAlive;
+    private:
+        Texture2D m_spriteUp;
+        Texture2D m_spriteDown;
 
-        Vector2 playerPos;
-        float playerMoveSpeed;
-        float playerSprintSpeed;
+        bool m_movingUp;
+        bool m_movingDown;
 
-        int playerPoints;
+        bool m_isFacingDown;
+        bool m_isFacingUp;
+        bool m_isAlive;
+
+        Vector2 m_position;
+        float m_playerMoveSpeed;
+        int m_points;
+
+
+
+
+
 };
