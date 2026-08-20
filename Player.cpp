@@ -7,16 +7,16 @@
 
 Player::Player(){
     
-    //InitAudioDevice();
     m_UiPos.y = -35;
-    finalScore = 0;
+    m_finalScore = 0;
     score = 0;
     //m_spriteUp = LoadTexture("assets/malayUp.png");
     m_spriteDown = LoadTexture("assets/malayDown.png");
     m_spriteDead = LoadTexture("assets/malayDead.png");
     m_mainMenuSprite = LoadTexture("assets/avaragePedestrian.png");
     
-    m_coinPickup = LoadSound("assets/pickupCoin.wav");
+    InitAudioDevice();
+    m_coinPickup = LoadSound("pickupCoinMP3.mp3");
     m_dieSfx = LoadSound("assets/hitHurt.wav");
     m_playerTpSfx = LoadSound("assets/tpSfx.wav");
 
@@ -34,7 +34,7 @@ Player::~Player() {
     UnloadSound(m_coinPickup);
     UnloadSound(m_playerTpSfx);
     UnloadSound(m_dieSfx);
-    //CloseAudioDevice();
+    CloseAudioDevice();
 }
 
 void Player::Draw() {
@@ -42,16 +42,11 @@ void Player::Draw() {
         DrawTexture(m_spriteDown, m_position.x, m_position.y, WHITE);
     else {
         DrawTexture(m_spriteDead, m_position.x, m_position.y, WHITE);
-
-        goToHospital += 1 *GetFrameTime();
-        
-        if(goToHospital > 10) {
-            
-        }
     }
 }
 
 void Player::Update() {
+
     if(IsKeyDown(KEY_UP) && IsKeyDown(KEY_RIGHT) && isAlive) m_position.y += GetFrameTime() * m_playerMoveSpeed / std::sqrt(2);
     if(IsKeyDown(KEY_UP) && IsKeyDown(KEY_LEFT) && isAlive) m_position.y += GetFrameTime() * m_playerMoveSpeed / std::sqrt(2);
     if(IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT) && isAlive) m_position.y -= GetFrameTime() * m_playerMoveSpeed / std::sqrt(2);
@@ -95,7 +90,7 @@ void Player::DrawHitbox(bool isColliding) {
 }
 void Player::DrawScore(){
     DrawText(TextFormat("Score: %d", score), 0, 0, 25, WHITE);
-    DrawText(TextFormat("High Score: %d", finalScore), 0, 25, 25, WHITE);
+    DrawText(TextFormat("High Score: %d", m_finalScore), 0, 25, 25, WHITE);
     //DrawText(TextFormat("amount of retries: %d", amountOfRetries), 0, 50, 25, WHITE);
     //DrawText(TextFormat("Dead?: %d", isAlive), 0, 750, 25, WHITE);
 }
@@ -120,7 +115,7 @@ void Player::StartingUI() {
 void Player::RespawnPlayer() {
     if(IsKeyPressed(KEY_ENTER) && !isAlive) {
             isAlive = true;
-            finalScore = score;
+            m_finalScore = score;
             score = 0;
             m_position.y = GetScreenHeight() - 15;
         }

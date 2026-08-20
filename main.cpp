@@ -8,6 +8,7 @@
 #include "Car.hpp"
 
 
+
 // -- DEFINE --
 #define SCRENHEIGHT 750
 #define SCREANWIDTH 760
@@ -16,31 +17,27 @@ Player player;
 bool gameHasStarted = true;
 
 
-
-
 int main(void) {
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "HELLO !!");
     {
-    InitAudioDevice();
-    Player player;
+
+    Player player;    
     Car car({-300, 335}, 250);
     Car car1({-375, 323}, 400);
     Car car2({-302, 138}, 200);
     Car car3({-324, 363}, 200);
-    Car car4({-305, 283}, 140);
+    Car car4({-305, 283}, 100);
     Car car5({-295, 283}, 180);
 
+       
     SetTargetFPS(60);
-
-    Sound sound = LoadSound("assets/hitHurt.wav");
-
-
     while (!WindowShouldClose())    
     {
         player.RespawnPlayer();
 
         if(gameHasStarted) {
-            
+        
+    
         bool isColliding = CheckCollisionRecs(player.GetKillRect(), car.GetKillRect()); 
         bool isColliding1 = CheckCollisionRecs(player.GetKillRect(), car1.GetKillRect()); 
         bool isColliding2 = CheckCollisionRecs(player.GetKillRect(), car2.GetKillRect()); 
@@ -52,8 +49,6 @@ int main(void) {
             player.isAlive = false;
         }
         
-        if(IsKeyDown(KEY_B))    
-            PlaySound(sound);
         
         
         player.StartingUI(); // MOVES THE FUNNY DEATH MESSAGE
@@ -127,8 +122,7 @@ int main(void) {
             DrawText("to play again. Press enter", 250, 150, 25, BLUE);
         EndDrawing();
     }
-    UnloadSound(sound);
-    CloseAudioDevice();
+        //UnloadSound(sfxT);
     }
     CloseWindow();
 }

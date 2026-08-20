@@ -29,6 +29,6 @@ class Player {
         Texture2D  m_spriteDead;
         Vector2 m_position;
         float m_playerMoveSpeed;
-        int finalScore;
-        float goToHospital;
+        int m_finalScore;
+        
 };
