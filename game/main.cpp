@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 
+
 //-- Includes: 
 #include "Player.hpp"
 #include "Car.hpp"
@@ -17,10 +18,9 @@ bool gameHasStarted = true;
 
 
 
-int main(void)
-{
+int main(void) {
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "HELLO !!");
-    
+    InitAudioDevice();
     Player player;
     Car car({-300, 335}, 250);
     Car car1({-375, 323}, 400);
@@ -31,9 +31,14 @@ int main(void)
 
     SetTargetFPS(60);
 
+    Sound sound = LoadSound("assets/hitHurt.wav");
+
+
     while (!WindowShouldClose())    
     {
         player.RespawnPlayer();
+       
+
 
 
         if(gameHasStarted) {
@@ -45,9 +50,14 @@ int main(void)
         bool isColliding4 = CheckCollisionRecs(player.GetKillRect(), car4.GetKillRect()); 
         bool isColliding5 = CheckCollisionRecs(player.GetKillRect(), car5.GetKillRect()); 
        
-        if(isColliding || isColliding1 || isColliding2 || isColliding3 || isColliding4 || isColliding5) {player.isAlive = false;        }
-
+        if(isColliding || isColliding1 || isColliding2 || isColliding3 || isColliding4 || isColliding5) {
+            player.isAlive = false;        
+            
         
+        }
+        
+        if(IsKeyDown(KEY_B))    
+            PlaySound(sound);
         
         
         player.StartingUI(); // MOVES THE FUNNY DEATH MESSAGE
@@ -83,34 +93,34 @@ int main(void)
         
 
      
-        if (player.score > 0 || car.isPlaying) {
+        if (player.score >= 1) {
             car.Update();
             car.DrawHitbox(isColliding);
         
         }
 
-        if (player.score > 4|| car.isPlaying) {
+        if (player.score > 4) {
             car1.DrawHitbox(isColliding1);
             car1.Update();
           
         }
-        if (player.score >  2 || car.isPlaying) {
+        if (player.score > 2) {
             car2.Update();
             car2.DrawHitbox(isColliding2);
         }
-        if (player.score > 6 || car.isPlaying) {
+        if (player.score > 6) {
             car3.Update();
             car3.DrawHitbox(isColliding3);
             
         }
 
-        if (player.score > 7 && car.isPlaying) {
+        if (player.score > 7) {
             car4.Update();
             car4.DrawHitbox(isColliding4);
             
         }
 
-        if (player.score > 4 && car.isPlaying) {
+        if (player.score > 4) {
             car5.Update();
             car5.DrawHitbox(isColliding5);
             
@@ -122,5 +132,7 @@ int main(void)
             DrawText("to play again. Press enter", 250, 150, 25, BLUE);
         EndDrawing();
     }
+    UnloadSound(sound);
+    CloseAudioDevice();
     CloseWindow();
 }

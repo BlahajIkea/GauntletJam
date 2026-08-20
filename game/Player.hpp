@@ -19,7 +19,11 @@ class Player {
         bool isAlive;
         Vector2 m_UiPos;
 
-    private:
+        
+        private:
+        Sound m_coinPickup;
+        Sound m_dieSfx;
+        Sound m_playerTpSfx;
         Texture2D m_mainMenuSprite;
         Texture2D  m_spriteDown;
         Texture2D  m_spriteDead;

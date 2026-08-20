@@ -29,7 +29,13 @@ void Car::Update() {
 }
 
 Rectangle Car::GetKillRect() {
-    return Rectangle{m_position.x + 110, m_position.y + 25, (float)m_sprite.width / 3, (float)m_sprite.height - 35};
+
+    Rectangle rect = {0,0,0,0};
+
+    if (pl.isAlive)
+        return Rectangle{m_position.x + 110, m_position.y + 25, (float)m_sprite.width / 3, (float)m_sprite.height - 35};
+
+    return rect;
 }
 
 void Car::DrawHitbox(bool isColliding) {

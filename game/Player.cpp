@@ -6,14 +6,20 @@
 #include "Car.hpp"
 
 Player::Player(){
+    
+    InitAudioDevice();
     m_UiPos.y = -35;
-
+    finalScore = 0;
     score = 0;
     //m_spriteUp = LoadTexture("assets/malayUp.png");
     m_spriteDown = LoadTexture("assets/malayDown.png");
     m_spriteDead = LoadTexture("assets/malayDead.png");
     m_mainMenuSprite = LoadTexture("assets/avaragePedestrian.png");
     
+    m_coinPickup = LoadSound("assets/pickupCoin.wav");
+    m_dieSfx = LoadSound("assets/hitHurt.wav");
+    m_playerTpSfx = LoadSound("assets/tpSfx.wav");
+
     m_playerMoveSpeed = 400;
     isAlive = true;
     m_position.x = GetScreenHeight()/ 2;
@@ -22,7 +28,13 @@ Player::Player(){
 
 Player::~Player() {
     UnloadTexture(m_spriteDown);
-    
+    UnloadTexture(m_spriteDead);
+    UnloadTexture(m_mainMenuSprite);
+
+    UnloadSound(m_coinPickup);
+    UnloadSound(m_playerTpSfx);
+    UnloadSound(m_dieSfx);
+    CloseAudioDevice();
 }
 
 void Player::Draw() {
@@ -56,11 +68,13 @@ void Player::OutOfBounds(){
     if(m_position.y <= GetScreenHeight() - GetScreenHeight()) {
         m_position.y = -5;
         std::cout << "TOP" << std::endl;
+        PlaySound(m_playerTpSfx);
     }
 
     if(m_position.x <= GetScreenWidth() - GetScreenWidth()) {
         std::cout << "LEFT" << std::endl;
         m_position.x = 750;
+        PlaySound(m_playerTpSfx);
     }
 
     if(m_position.x >= GetScreenWidth()) {
@@ -81,6 +95,7 @@ void Player::DrawHitbox(bool isColliding) {
 }
 void Player::DrawScore(){
     DrawText(TextFormat("Score: %d", score), 0, 0, 25, WHITE);
+    DrawText(TextFormat("High Score: %d", finalScore), 0, 25, 25, WHITE);
     //DrawText(TextFormat("amount of retries: %d", amountOfRetries), 0, 50, 25, WHITE);
     //DrawText(TextFormat("Dead?: %d", isAlive), 0, 750, 25, WHITE);
 }
@@ -91,6 +106,7 @@ void Player::GainPoints() {
         score += 1;
         m_position.y = GetScreenHeight() - GetScreenHeight();
         std::cout << score << std::endl;
+        PlaySound(m_coinPickup);
     }
 }
 
@@ -104,6 +120,7 @@ void Player::StartingUI() {
 void Player::RespawnPlayer() {
     if(IsKeyPressed(KEY_ENTER) && !isAlive) {
             isAlive = true;
+            finalScore = score;
             score = 0;
             m_position.y = GetScreenHeight() - 15;
         }
