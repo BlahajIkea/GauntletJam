@@ -20,7 +20,7 @@ bool gameHasStarted = true;
 
 int main(void) {
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "HELLO !!");
-    InitAudioDevice();
+  
     Player player;
     Car car({-300, 335}, 250);
     Car car1({-375, 323}, 400);
@@ -37,9 +37,6 @@ int main(void) {
     while (!WindowShouldClose())    
     {
         player.RespawnPlayer();
-       
-
-
 
         if(gameHasStarted) {
             

@@ -3,7 +3,7 @@ NAME := gauntlet
 
 # Compiler and the gauntlet's mandatory flags
 CXX      := c++
-CXXFLAGS := -Wall -Wextra -Werror -std=c++17 
+CXXFLAGS := -Wall -Wextra -Werror -std=c++17 -g
 
 # List every .cpp file in the exercise here
 SRCS := main.cpp Car.cpp Player.cpp 
