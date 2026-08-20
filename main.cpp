@@ -20,6 +20,7 @@ bool gameHasStarted = true;
 
 int main(void) {
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "HELLO !!");
+    {
     InitAudioDevice();
     Player player;
     Car car({-300, 335}, 250);
@@ -118,7 +119,6 @@ int main(void) {
         if (player.score > 4) {
             car5.Update();
             car5.DrawHitbox(isColliding5);
-            
         }
 
 
@@ -129,5 +129,6 @@ int main(void) {
     }
     UnloadSound(sound);
     CloseAudioDevice();
+    }
     CloseWindow();
 }

@@ -7,7 +7,7 @@
 
 Player::Player(){
     
-    InitAudioDevice();
+    //InitAudioDevice();
     m_UiPos.y = -35;
     finalScore = 0;
     score = 0;
@@ -34,7 +34,7 @@ Player::~Player() {
     UnloadSound(m_coinPickup);
     UnloadSound(m_playerTpSfx);
     UnloadSound(m_dieSfx);
-    CloseAudioDevice();
+    //CloseAudioDevice();
 }
 
 void Player::Draw() {
