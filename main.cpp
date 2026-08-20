@@ -20,7 +20,7 @@ bool gameHasStarted = true;
 
 int main(void) {
     InitWindow(SCREANWIDTH, SCRENHEIGHT, "HELLO !!");
-  
+    InitAudioDevice();
     Player player;
     Car car({-300, 335}, 250);
     Car car1({-375, 323}, 400);
@@ -48,9 +48,7 @@ int main(void) {
         bool isColliding5 = CheckCollisionRecs(player.GetKillRect(), car5.GetKillRect()); 
        
         if(isColliding || isColliding1 || isColliding2 || isColliding3 || isColliding4 || isColliding5) {
-            player.isAlive = false;        
-            
-        
+            player.isAlive = false;
         }
         
         if(IsKeyDown(KEY_B))    
